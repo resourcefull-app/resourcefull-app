@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   auth,
@@ -7,11 +7,16 @@ import {
 } from "../../config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./login.css";
+import Register from "../Registration/Register";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, loading, error] = useAuthState(auth);
+  const [styleState, setStyleState] = useState(false);
+  const [mailfield, setMailField] = useState(false);
+  const [passwordfield, setPasswordField] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,11 +27,30 @@ function Login() {
     if (user) navigate("/dashboard");
   }, [user, loading, navigate]);
 
-  const [styleState, setStyleState] = useState(false);
   const toogleStyleHandler = () => {
     setStyleState(!styleState);
   };
 
+  const loginHandler = () => {
+    if (!email) {
+      console.log("Please enter email id and password");
+      setMailField(true);
+      return;
+    } else {
+      setMailField(false);
+    }
+    if (!password) {
+      setPasswordField(true);
+      return;
+    } else {
+      setPasswordField(false);
+    }
+
+    console.log("Custom", auth);
+    setMailField(false);
+    setPasswordField(false);
+    logInWithEmailAndPassword(email, password);
+  };
   return (
     // <div className="login">
     //   <div className="login__container">
@@ -63,36 +87,22 @@ function Login() {
     // </div>
     <>
       <h2>Resourcefull</h2>
+
       <div
         className={`container ${styleState ? "right-panel-active" : ""}`}
         id="container"
       >
         <div className="form-container sign-up-container">
           <form action="#">
-            <h3>Create Account</h3>
-            <div className="social-container">
-              <a href="#3" className="social">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a href="#3" className="social">
-                <i className="fab fa-google-plus-g"></i>
-              </a>
-              <a href="#3" className="social">
-                <i className="fab fa-linkedin-in"></i>
-              </a>
-            </div>
-            <span>or use your email for registration</span>
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
-            <button className="button">Sign Up</button>
+            <Register></Register>
           </form>
         </div>
+
         <div className="form-container sign-in-container">
           <form action="#">
             <h3>Sign in</h3>
             <div className="social-container">
-                <button className="googleBg" onClick={signInWithGoogle}></button>
+              <button className="googleBg" onClick={signInWithGoogle}></button>
             </div>
             <h6>or use your account</h6>
             <input
@@ -102,6 +112,7 @@ function Login() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="E-mail Address"
             />
+            {mailfield ? <span>Please enter email id</span> : null}
             <input
               type="password"
               className="login__textBox"
@@ -109,12 +120,14 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
             />
+            {passwordfield ? <span>Please enter password</span> : null}
             <a href="#4">Forgot your password?</a>
-            <button className="button" onClick={() => logInWithEmailAndPassword(email, password)}>
+            <button className="button" onClick={loginHandler}>
               Sign In
             </button>
           </form>
         </div>
+
         <div className="overlay-container">
           <div className="overlay">
             <div className="overlay-panel overlay-left">

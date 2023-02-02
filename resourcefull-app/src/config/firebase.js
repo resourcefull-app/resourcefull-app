@@ -25,7 +25,7 @@ const firebaseConfig = {
   storageBucket: "resourcefull-team.appspot.com",
   messagingSenderId: "719014946472",
   appId: "1:719014946472:web:ce6e801379ba8b9080c49d",
-  measurementId: "G-VGENXFMG6G"
+  measurementId: "G-VGENXFMG6G",
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);

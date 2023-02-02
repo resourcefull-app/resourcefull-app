@@ -36,9 +36,9 @@ span {
 }
 
 a {
-  color: #333;
+  /* color: #333; */
   font-size: 14px;
-  text-decoration: none;
+  /* text-decoration: none; */
   margin: 15px 0;
 }
 
@@ -210,9 +210,9 @@ input {
   transform: translateX(20%);
 }
 
-.social-container {
+/* .social-container {
   margin: 20px 0;
-}
+} */
 
 .social-container a {
   border: 1px solid #dddddd;
@@ -258,4 +258,8 @@ footer a {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+}
+.register_label {
+  display: block;
+  margin: 0.5rem 0;
 }
